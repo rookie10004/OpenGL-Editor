@@ -1,5 +1,6 @@
 #include "Display.h"
-#include "Application.h"
+
+#include <SDL3/SDL_opengl.h>
 
 Display::~Display()
 {
@@ -36,7 +37,14 @@ void Display::Initialize()
         return;
     }
 
+    // GLEW initialisieren
+    glewError = glewInit();
+    if (glewError != GLEW_OK) {
+        std::cerr << "GLEW Fehler: " << glewGetErrorString(glewError) << std::endl;
+        return;
+    }
 
+    std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
 }
 
 void Display::SwapBuffer()

@@ -6,9 +6,10 @@ int main(void) {
 	app.Initialize();
 	app.Setup();
 
-	while(app.getIsRunning()) {
+	while(app.GetIsRunning()) {
 		app.InputHandle();
-
-
+		app.Update();
 	}
+
+	return 0;
 }
