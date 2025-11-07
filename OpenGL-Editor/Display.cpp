@@ -4,6 +4,7 @@
 
 Display::~Display()
 {
+    SDL_GL_DestroyContext(context);
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
@@ -37,6 +38,8 @@ void Display::Initialize()
         return;
     }
 
+    glewExperimental = true;
+
     // GLEW initialisieren
     glewError = glewInit();
     if (glewError != GLEW_OK) {
@@ -45,6 +48,8 @@ void Display::Initialize()
     }
 
     std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
+
+    glViewport(0, 0, width, height);
 }
 
 void Display::SwapBuffer()

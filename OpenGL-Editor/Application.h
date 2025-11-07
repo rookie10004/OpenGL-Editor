@@ -1,12 +1,7 @@
 #pragma once
 
-#include "imgui.h"
-#include "backends/imgui_impl_opengl3.h"
-#include "backends/imgui_impl_SDL3.h"
-
 #include "Shader.h"
 #include "Display.h"
-#include "GUI.h"
 #include <map>
 
 struct ShapeData {
@@ -16,11 +11,10 @@ struct ShapeData {
 	unsigned int drawMode = 0;
 };
 
-const float ver[] = {
-		-0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,  // unten links - Rot
-		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,  // unten rechts - Grün
-		-0.5f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,  // oben links - Blau
-		 0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f   // oben rechts - Gelb
+inline float verticesT[] = {
+	-0.5f, -0.5f, 0.0f, 0, 0, 0,// Vertex 1 (bottom-left)
+	 0.5f, -0.5f, 0.0f, 0, 0, 0,// Vertex 2 (bottom-right)
+	 0.0f,  0.5f, 0.0f,  0, 0, 0// Vertex 3 (top)
 };
 
 class Application
@@ -33,7 +27,7 @@ private:
 
 	Display display;
 	Shader shader;
-	GUI gui;
+	SDL_Event event; 
 
 	std::map<std::string, ShapeData> shapes;
 	
