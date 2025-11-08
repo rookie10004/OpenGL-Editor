@@ -54,9 +54,9 @@ void Application::Initialize()
 
 void Application::Setup()
 {
-    shader = Shader("default.vert", "default.frag");
+    shader = new Shader("default.vert", "default.frag");
 
-	LoadShape("Quadrat", verticesT, sizeof(verticesT), GL_TRIANGLES);
+	LoadShape("Quadrat", vertices, sizeof(vertices), GL_TRIANGLES);
 }
 
 void Application::Update()
@@ -66,7 +66,7 @@ void Application::Update()
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	// Shader verwenden
-	shader.UseShader();
+	shader->UseShader();
 
 	//// Dreieck zeichnen
 	//const std::string& currentSelection = gui.GetSelectedItemName();

@@ -11,10 +11,15 @@ struct ShapeData {
 	unsigned int drawMode = 0;
 };
 
-inline float verticesT[] = {
-	-0.5f, -0.5f, 0.0f, 0, 0, 0,// Vertex 1 (bottom-left)
-	 0.5f, -0.5f, 0.0f, 0, 0, 0,// Vertex 2 (bottom-right)
-	 0.0f,  0.5f, 0.0f,  0, 0, 0// Vertex 3 (top)
+inline float vertices[] = {
+	 -0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   // unten links - Rot
+   0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   // unten rechts - Grün
+   0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   // oben rechts - Gelb
+
+   // Zweites Dreieck
+   -0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   // unten links - Rot
+	0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   // oben rechts - Gelb
+   -0.5f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f    // oben links - Blau
 };
 
 class Application
@@ -26,7 +31,7 @@ private:
 	bool isRunning = true;
 
 	Display display;
-	Shader shader;
+	Shader* shader = nullptr;
 	SDL_Event event; 
 
 	std::map<std::string, ShapeData> shapes;

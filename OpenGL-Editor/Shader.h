@@ -11,7 +11,6 @@
 class Shader
 {
 public:
-	Shader() = default;
 	Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = NULL);
 	~Shader();
 
