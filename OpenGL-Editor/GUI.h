@@ -9,7 +9,7 @@
 class GUI
 {
 private:
-	std::vector<std::string> dropdownItems = { "Quadrat", "Dreieck" };
+	std::vector<std::string> dropdownItems = { "Square", "Triangle", "Pyramid"};
 	int selectedItemIndex = 0;
 
 public:

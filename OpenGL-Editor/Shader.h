@@ -10,6 +10,9 @@
 
 class Shader
 {
+private:
+	unsigned int shaderProgram;
+
 public:
 	Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = NULL);
 	~Shader();
@@ -21,7 +24,4 @@ public:
 	void SetFloat(const std::string& name, float value) const;
 
 	unsigned int GetID();
-
-private:
-	unsigned int shaderProgram;
 };

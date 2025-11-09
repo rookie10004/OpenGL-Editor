@@ -1,8 +1,20 @@
 #pragma once
 
+#include "imgui.h"
+#include "backends/imgui_impl_opengl3.h"
+#include "backends/imgui_impl_SDL3.h"
+
 #include "Shader.h"
 #include "Display.h"
+#include "GUI.h"
+#include "Vertices.h"
+
 #include <map>
+
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+
 
 struct ShapeData {
 	unsigned int VAO = 0;
@@ -11,16 +23,6 @@ struct ShapeData {
 	unsigned int drawMode = 0;
 };
 
-inline float vertices[] = {
-	 -0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   // unten links - Rot
-   0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   // unten rechts - Grün
-   0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   // oben rechts - Gelb
-
-   // Zweites Dreieck
-   -0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   // unten links - Rot
-	0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   // oben rechts - Gelb
-   -0.5f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f    // oben links - Blau
-};
 
 class Application
 {
@@ -32,9 +34,13 @@ private:
 
 	Display display;
 	Shader* shader = nullptr;
-	SDL_Event event; 
+	SDL_Event event;
+	GUI gui;
 
 	std::map<std::string, ShapeData> shapes;
+
+	float rotation = 0.0f;
+	double prevTime = SDL_GetTicks();
 	
 	void LoadShape(const std::string& name, const float vertices[], size_t vertexDataSze, unsigned int drawMode);
 
