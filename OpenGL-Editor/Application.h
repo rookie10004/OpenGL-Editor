@@ -8,21 +8,13 @@
 #include "Display.h"
 #include "GUI.h"
 #include "Vertices.h"
+#include "Shape.h"
 
 #include <map>
 
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
-
-
-struct ShapeData {
-	unsigned int VAO = 0;
-	unsigned int VBO = 0;
-	int vertexCount = 0;
-	unsigned int drawMode = 0;
-};
-
 
 class Application
 {
@@ -37,12 +29,11 @@ private:
 	SDL_Event event;
 	GUI gui;
 
-	std::map<std::string, ShapeData> shapes;
+	std::map<std::string, ShapeData> shapeMap;
 
-	float rotation = 0.0f;
-	double prevTime = SDL_GetTicks();
-	
-	void LoadShape(const std::string& name, const float vertices[], size_t vertexDataSze, unsigned int drawMode);
+	Shape square = Shape("Square");
+	Shape triangle = Shape("Triangle");
+	Shape pyramid = Shape("Pyramid");
 
 public:
 	Application() : display(title, width, height) {};
