@@ -2,20 +2,6 @@
 
 Application::~Application()
 {
-	for (auto& pair : shapeMap)
-	{
-		const std::string& name = pair.first;  // Key
-		ShapeData& shape = pair.second;        // Value
-
-		if (shape.VAO != 0) {
-			glDeleteVertexArrays(1, &shape.VAO);
-			shape.VAO = 0;
-		}
-		if (shape.VBO != 0) {
-			glDeleteBuffers(1, &shape.VBO);
-			shape.VBO = 0;
-		}
-	}
 	shapeMap.clear();
 
 	delete shader;
@@ -39,9 +25,14 @@ void Application::Initialize()
 	ImGui_ImplSDL3_InitForOpenGL(display.GetWindow(), display.GetContext());
 	ImGui_ImplOpenGL3_Init("#version 330 core");
 
-	shapeMap.emplace(square.GetName(), square.Initialize(squareVertices, sizeof(squareVertices), GL_TRIANGLES));
-	shapeMap.emplace(triangle.GetName(), triangle.Initialize(triangleVertices, sizeof(triangleVertices), GL_TRIANGLES));
-	shapeMap.emplace(pyramid.GetName(), pyramid.Initialize(pyramidVertices, sizeof(pyramidVertices), GL_TRIANGLES));
+	cube.Initialize(cubeVertices, sizeof(cubeVertices), GL_TRIANGLES);
+	shapeMap.emplace(cube.GetName(), &cube);
+
+	pyramid.Initialize(pyramidVertices, sizeof(pyramidVertices), GL_TRIANGLES);
+	shapeMap.emplace(pyramid.GetName(), &pyramid);
+
+	torus.Initialize(torusVertices, sizeof(torusVertices), GL_TRIANGLES);
+	shapeMap.emplace(torus.GetName(), &torus);
 }
 
 void Application::Setup()
@@ -63,16 +54,13 @@ void Application::Update()
 	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -2.0f));
 	projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
 
-	currentShape->Draw(shader, view, projection);
-
 	// Zeichne die ausgewählte Form
 	const std::string& currentSelection = gui.GetSelectedItemName();
 	if (shapeMap.count(currentSelection)) {
-		const ShapeData& data = shapeMap.at(currentSelection);
-		glBindVertexArray(data.VAO);
-		glDrawArrays(data.drawMode, 0, data.vertexCount);
-		currentShape = data.shape;
+		currentShape = shapeMap.at(currentSelection);
 	}
+
+	currentShape->Draw(shader, view, projection);
 
 	// ImGui Frame Start
 	ImGui_ImplOpenGL3_NewFrame();
@@ -108,6 +96,21 @@ void Application::InputHandle()
 			float yOffset = (float)event.motion.yrel;
 
 			currentShape->Rotate(xOffset, yOffset);
+		}
+
+		if (event.type == SDL_EVENT_MOUSE_WHEEL)
+		{
+			int y = event.wheel.y;
+
+			if (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED)
+			{
+				y = -y;
+			}
+
+			float scaleStep = 0.1f;
+			float factor = 1.0f + y * scaleStep;
+
+			currentShape->Scale(glm::vec3(factor));
 		}
     }
 }

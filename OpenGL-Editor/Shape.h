@@ -9,29 +9,23 @@
 
 #include "Shader.h"
 
-class Shape;
-
-struct ShapeData {
-	unsigned int VAO;
-	unsigned int VBO;
-	int vertexCount;
-	unsigned int drawMode;
-	Shape* shape = nullptr;
-};
-
 class Shape
 {
 private:
 	std::string name;
+	unsigned int VAO = 0;
+	unsigned int VBO = 0;
+	int vertexCount = 0;
+	unsigned int drawMode = GL_TRIANGLES;
 
-	const float sensitivity = 0.1f;
+	const float sensitivity = 0.25f;
 
 	glm::mat4 model = glm::mat4(1.0f);
 
 public:
 	Shape(const std::string& name) : name(name) { };
 
-	ShapeData Initialize(const float vertices[], size_t vertexDataSize, unsigned int drawMode);
+	void Initialize(const float vertices[], size_t vertexDataSize, unsigned int drawMode);
 	const std::string& GetName() const { return name; };
 	void Draw(Shader* shader, glm::mat4& view, glm::mat4& projection);
 	void Rotate(float x, float y);

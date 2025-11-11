@@ -29,12 +29,13 @@ private:
 	SDL_Event event;
 	GUI gui;
 
-	std::map<std::string, ShapeData> shapeMap;
-
-	Shape square = Shape("Square");
-	Shape triangle = Shape("Triangle");
+	Shape cube = Shape("Cube");
+	Shape cylinder = Shape("Cylinder");
 	Shape pyramid = Shape("Pyramid");
-	Shape* currentShape = &square;
+	Shape torus = Shape("Torus");
+
+	Shape* currentShape = &cube;
+	std::map<std::string, Shape*> shapeMap;
 
 public:
 	Application() : display(title, width, height) {};

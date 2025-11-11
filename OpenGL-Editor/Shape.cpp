@@ -1,17 +1,15 @@
 #include "Shape.h"
 
-ShapeData Shape::Initialize(const float vertices[], size_t vertexDataSize, unsigned int drawMode)
+void Shape::Initialize(const float vertices[], size_t vertexDataSize, unsigned int drawMode)
 {
-	ShapeData data;
-	data.vertexCount = vertexDataSize / sizeof(float) / 6;
-	data.drawMode = drawMode;
-	data.shape = this;
+	vertexCount = vertexDataSize / sizeof(float) / 6;
+	this->drawMode = drawMode;
 
-	glGenVertexArrays(1, &data.VAO);
-	glGenBuffers(1, &data.VBO);
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
 
-	glBindVertexArray(data.VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, data.VBO);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	//Größe in Bytes übergeben
 	glBufferData(GL_ARRAY_BUFFER, vertexDataSize, vertices, GL_STATIC_DRAW);
 
@@ -24,8 +22,6 @@ ShapeData Shape::Initialize(const float vertices[], size_t vertexDataSize, unsig
 	glEnableVertexAttribArray(1);
 
 	glBindVertexArray(0);
-
-	return data;
 }
 
 void Shape::Draw(Shader* shader, glm::mat4& view, glm::mat4& projection)
@@ -34,6 +30,10 @@ void Shape::Draw(Shader* shader, glm::mat4& view, glm::mat4& projection)
 	shader->SetMat4("model", model);
 	shader->SetMat4("view", view);
 	shader->SetMat4("projection", projection);
+
+	glBindVertexArray(VAO);
+	glDrawArrays(drawMode, 0, vertexCount);
+	glBindVertexArray(0);
 }
 
 void Shape::Rotate(float x, float y)
@@ -43,4 +43,9 @@ void Shape::Rotate(float x, float y)
 
 	model = yaw * model;
 	model = pitch * model;
+}
+
+void Shape::Scale(glm::vec3 scale)
+{
+	model = glm::scale(model, scale);
 }
