@@ -34,6 +34,7 @@ private:
 	Shape square = Shape("Square");
 	Shape triangle = Shape("Triangle");
 	Shape pyramid = Shape("Pyramid");
+	Shape* currentShape = &square;
 
 public:
 	Application() : display(title, width, height) {};
