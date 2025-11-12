@@ -52,7 +52,7 @@ void Application::Render()
 	glViewport(0, 0, width - 200, height);
 
 	// Hintergrund löschen und Farbe setzen
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClearColor(0.2f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//Rotation
@@ -60,7 +60,7 @@ void Application::Render()
 	glm::mat4 projection = glm::mat4(1.0f);
 
 	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -2.0f));
-	projection = glm::perspective(glm::radians(45.0f), (float)(width -200) / (float)height, 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(45.0f), (float)(width - 200) / (float)height, 0.1f, 100.0f);
 
 	// Zeichne die ausgewählte Form
 	const std::string& currentSelection = gui.GetSelectedItemName();
@@ -77,7 +77,7 @@ void Application::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// GUI zeichnen
-	gui.Draw(display, TCB);
+	gui.Draw(display, TCB, currentShape);
 
     display.SwapBuffer();
 }

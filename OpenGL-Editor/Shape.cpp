@@ -49,3 +49,8 @@ void Shape::Scale(glm::vec3 scale)
 {
 	model = glm::scale(model, scale);
 }
+
+void Shape::ResetTransformation()
+{
+
+}

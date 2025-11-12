@@ -29,7 +29,6 @@ public:
 	const std::string& GetName() const { return name; };
 	void Draw(Shader* shader, glm::mat4& view, glm::mat4& projection);
 	void Rotate(float x, float y);
-	void Translate(float x, float y);
 	void Scale(glm::vec3 scale);
 	void ResetTransformation();
 };

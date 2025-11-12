@@ -1,18 +1,52 @@
 #include "GUI.h"
 
-void GUI::Draw(Display& display, unsigned int viewportTextureID)
+void GUI::Draw(Display& display, unsigned int viewportTextureID, Shape* shape)
 {
     // ImGui Frame Start
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL3_NewFrame();
     ImGui::NewFrame();
 
+    SetStyle();
     ViewportWindow(display, viewportTextureID);
-    SettingsWindow(display);
+    SettingsWindow(display, shape);
 
     // ImGui Frame Ende und Rendern
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void GUI::SetStyle()
+{
+    ImGuiStyle& style = ImGui::GetStyle();
+
+    style.Colors[ImGuiCol_WindowBg] = black;
+
+    style.Colors[ImGuiCol_Text] = white;
+
+    style.Colors[ImGuiCol_TitleBg] = darkGrey;
+    style.Colors[ImGuiCol_TitleBgActive] = lightGrey;
+
+    style.Colors[ImGuiCol_Border] = grey;
+    style.Colors[ImGuiCol_BorderShadow] = grey;
+
+    style.Colors[ImGuiCol_Button] = grey;
+    style.Colors[ImGuiCol_ButtonActive] = superLightGrey;
+    style.Colors[ImGuiCol_ButtonHovered] = lightGrey;
+
+    style.Colors[ImGuiCol_Separator] = grey;
+    style.Colors[ImGuiCol_SeparatorActive] = superLightGrey;
+    style.Colors[ImGuiCol_SeparatorHovered] = lightGrey;
+
+    style.Colors[ImGuiCol_FrameBg] = grey;
+    style.Colors[ImGuiCol_FrameBgActive] = superLightGrey;
+    style.Colors[ImGuiCol_FrameBgHovered] = lightGrey;
+
+    style.Colors[ImGuiCol_Header] = grey;
+    style.Colors[ImGuiCol_HeaderActive] = superLightGrey;
+    style.Colors[ImGuiCol_HeaderHovered] = lightGrey;
+
+    style.Colors[ImGuiCol_PopupBg] = black;
 }
 
 void GUI::ViewportWindow(Display& display, unsigned int viewportTextureID)
@@ -20,7 +54,7 @@ void GUI::ViewportWindow(Display& display, unsigned int viewportTextureID)
     ImGui::SetNextWindowSize(ImVec2(display.GetWidth() - 200, display.GetHeight()), ImGuiCond_Once);
     ImGui::SetNextWindowPos(ImVec2(200.0f, 0.0f), ImGuiCond_Once);
 
-    ImGui::Begin("Object", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar);
+    ImGui::Begin("Object Viewport", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar);
 
     ImVec2 viewportSize = ImVec2((float)(display.GetWidth() - 200), (float)display.GetHeight());
 
@@ -29,12 +63,14 @@ void GUI::ViewportWindow(Display& display, unsigned int viewportTextureID)
     ImGui::End();
 }
 
-void GUI::SettingsWindow(Display& display)
+void GUI::SettingsWindow(Display& display, Shape* shape)
 {
     ImGui::SetNextWindowSize(ImVec2(display.GetWidth() - 600, display.GetHeight()), ImGuiCond_Once);
     ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f), ImGuiCond_Once);
 
-    ImGui::Begin("Settings", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+    ImGui::Begin("Object Settings", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+
+    ImGui::SeparatorText("Shape");
 
     std::vector<const char*> items_c_str;
     for (const auto& item : dropdownItems) {
@@ -46,5 +82,12 @@ void GUI::SettingsWindow(Display& display)
         std::cout << "GUI: Selection changed to: " << dropdownItems[selectedItemIndex] << std::endl;
     }
 
+
+    if (ImGui::Button("Reset", ImVec2(50, 20)))
+    {
+        shape->ResetTransformation();
+    }
+
+    ImGui::SeparatorText("Color");
     ImGui::End();
 }
