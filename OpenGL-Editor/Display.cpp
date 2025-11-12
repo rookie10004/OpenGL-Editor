@@ -48,8 +48,6 @@ void Display::Initialize()
     }
 
     std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
-
-    glViewport(0, 0, width, height);
 }
 
 void Display::SwapBuffer()

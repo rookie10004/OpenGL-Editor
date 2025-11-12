@@ -8,7 +8,7 @@ int main(void) {
 
 	while(app.GetIsRunning()) {
 		app.InputHandle();
-		app.Update();
+		app.Render();
 	}
 
 	return 0;

@@ -1,8 +1,6 @@
 #pragma once
 
 #include "imgui.h"
-#include "backends/imgui_impl_opengl3.h"
-#include "backends/imgui_impl_SDL3.h"
 
 #include "Shader.h"
 #include "Display.h"
@@ -37,14 +35,22 @@ private:
 	Shape* currentShape = &cube;
 	std::map<std::string, Shape*> shapeMap;
 
+	unsigned int FBO; // Frame Buffer
+	unsigned int TCB; // Texture Color Buffer
+	unsigned int RBO; // Render Buffer
+
+	float cameraZOffset = -2.0f;
+
 public:
 	Application() : display(title, width, height) {};
 	~Application();
 
 	void Initialize();
 	void Setup();
-	void Update();
+	void Render();
 	void InputHandle();
-	bool GetIsRunning() const { return isRunning; };
+	bool GetIsRunning() const { return isRunning; }
+	void SetupFBO();
+	unsigned int GetViewPortTextureID() const { return TCB; }
 };
 

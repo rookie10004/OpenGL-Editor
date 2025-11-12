@@ -25,5 +25,7 @@ public:
 	void SwapBuffer();
 	SDL_Window* GetWindow() { return window; }
 	SDL_GLContext GetContext() { return context; }
+	int GetWidth() { return width; }
+	int GetHeight() { return height; }
 };
 
