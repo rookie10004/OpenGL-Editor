@@ -52,7 +52,7 @@ void Application::Render()
 	glViewport(0, 0, width - 200, height);
 
 	// Hintergrund löschen und Farbe setzen
-	glClearColor(0.2f, 0.1f, 0.1f, 1.0f);
+	glClearColor(0.4f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//Rotation

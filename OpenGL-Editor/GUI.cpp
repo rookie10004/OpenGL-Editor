@@ -54,13 +54,17 @@ void GUI::ViewportWindow(Display& display, unsigned int viewportTextureID)
     ImGui::SetNextWindowSize(ImVec2(display.GetWidth() - 200, display.GetHeight()), ImGuiCond_Once);
     ImGui::SetNextWindowPos(ImVec2(200.0f, 0.0f), ImGuiCond_Once);
 
-    ImGui::Begin("Object Viewport", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+
+    ImGui::Begin("Object Viewport", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 
     ImVec2 viewportSize = ImVec2((float)(display.GetWidth() - 200), (float)display.GetHeight());
 
     ImGui::Image((void*)(intptr_t)viewportTextureID, viewportSize, ImVec2(0, 1), ImVec2(1, 0));
 
     ImGui::End();
+
+    ImGui::PopStyleVar();
 }
 
 void GUI::SettingsWindow(Display& display, Shape* shape)
