@@ -68,7 +68,7 @@ void Application::Render()
 		currentShape = shapeMap.at(currentSelection);
 	}
 
-	currentShape->Draw(shader, view, projection);
+	currentShape->Draw(shader, view, projection, SDL_GetTicks() / (float)1000);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, width, height);
