@@ -53,5 +53,5 @@ void Shape::Scale(glm::vec3 scale)
 
 void Shape::ResetTransformation()
 {
-
+	model = glm::mat4(1.0f);
 }

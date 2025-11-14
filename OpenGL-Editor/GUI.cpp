@@ -1,6 +1,6 @@
 #include "GUI.h"
 
-void GUI::Draw(Display& display, unsigned int viewportTextureID, Shape* shape)
+void GUI::Draw(Display& display, unsigned int viewportTextureID, Shape* shape, float FPS)
 {
     // ImGui Frame Start
     ImGui_ImplOpenGL3_NewFrame();
@@ -8,7 +8,7 @@ void GUI::Draw(Display& display, unsigned int viewportTextureID, Shape* shape)
     ImGui::NewFrame();
 
     SetStyle();
-    ViewportWindow(display, viewportTextureID);
+    ViewportWindow(display, viewportTextureID, FPS);
     SettingsWindow(display, shape);
 
     // ImGui Frame Ende und Rendern
@@ -49,7 +49,7 @@ void GUI::SetStyle()
     style.Colors[ImGuiCol_PopupBg] = black;
 }
 
-void GUI::ViewportWindow(Display& display, unsigned int viewportTextureID)
+void GUI::ViewportWindow(Display& display, unsigned int viewportTextureID, float FPS)
 {
     ImGui::SetNextWindowSize(ImVec2(display.GetWidth() - display.GetSettingsWidth(), display.GetHeight()), ImGuiCond_Once);
     ImGui::SetNextWindowPos(ImVec2(display.GetSettingsWidth(), 0), ImGuiCond_Once);
@@ -58,9 +58,12 @@ void GUI::ViewportWindow(Display& display, unsigned int viewportTextureID)
 
     ImGui::Begin("Object Viewport", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 
-    ImVec2 viewportSize = ImVec2(display.GetWidth() - display.GetSettingsWidth(), display.GetHeight());
+    ImGui::Image((void*)(intptr_t)viewportTextureID, ImVec2(display.GetWidth() - display.GetSettingsWidth(), display.GetHeight()), ImVec2(0, 1), ImVec2(1, 0));
 
-    ImGui::Image((void*)(intptr_t)viewportTextureID, viewportSize, ImVec2(0, 1), ImVec2(1, 0));
+    float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
+    ImGui::SetCursorScreenPos(ImVec2(display.GetWidth() - 80, ImGui::GetWindowPos().y + titleBarHeight + 5.0f));
+
+    ImGui::Text("FPS: %.2f", FPS);
 
     ImGui::End();
 

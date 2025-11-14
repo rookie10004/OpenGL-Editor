@@ -30,4 +30,3 @@ public:
 	int GetHeight() { return height; }
 	int GetSettingsWidth() { return settingsWidth; }
 };
-

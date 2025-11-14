@@ -27,9 +27,9 @@ public:
 	GUI() = default;
 
 	const std::string& GetSelectedItemName() const { return dropdownItems[selectedItemIndex]; }
-	void Draw(Display& display, unsigned int viewportTextureID, Shape* shape);
+	void Draw(Display& display, unsigned int viewportTextureID, Shape* shape, float FPS);
 	void SetStyle();
-	void ViewportWindow(Display& display, unsigned int viewportTextureID);
+	void ViewportWindow(Display& display, unsigned int viewportTextureID, float FPS);
 	void SettingsWindow(Display& display, Shape* shape);
 };
 

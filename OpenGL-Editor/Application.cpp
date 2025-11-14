@@ -52,7 +52,7 @@ void Application::Render()
 	glViewport(0, 0, width - settingsWidth, height);
 
 	// Hintergrund löschen und Farbe setzen
-	glClearColor(0.4f, 0.1f, 0.1f, 1.0f);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//Rotation
@@ -68,7 +68,18 @@ void Application::Render()
 		currentShape = shapeMap.at(currentSelection);
 	}
 
-	currentShape->Draw(shader, view, projection, SDL_GetTicks() / 1000.0f);
+	float currentTime = SDL_GetTicks() / 1000.0f;
+	fpsTimer += currentTime - lastFrameTime;
+	frameCount++;
+	if (fpsTimer >= 1.0f)
+	{
+		FPS = frameCount / fpsTimer;
+		fpsTimer = 0.0f;
+		frameCount = 0;
+	}
+	lastFrameTime = currentTime;
+
+	currentShape->Draw(shader, view, projection, currentTime);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, width, height);
@@ -77,7 +88,7 @@ void Application::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// GUI zeichnen
-	gui.Draw(display, TCB, currentShape);
+	gui.Draw(display, TCB, currentShape, FPS);
 
     display.SwapBuffer();
 }

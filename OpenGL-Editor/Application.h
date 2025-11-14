@@ -41,6 +41,13 @@ private:
 	unsigned int TCB; // Texture Color Buffer
 	unsigned int RBO; // Render Buffer
 
+	// FPS Attribute
+	float lastFrameTime = 0.0f;
+	float fpsTimer = 0.0f;
+	int frameCount = 0;
+	float FPS = 60;
+
+
 public:
 	Application() : display(title, width, height, settingsWidth) {};
 	~Application();

@@ -17,6 +17,7 @@ private:
 	unsigned int VBO = 0;
 	int vertexCount = 0;
 	unsigned int drawMode = GL_TRIANGLES;
+	float* vertices;
 
 	const float sensitivity = 0.25f;
 
