@@ -24,12 +24,13 @@ void Shape::Initialize(const float vertices[], size_t vertexDataSize, unsigned i
 	glBindVertexArray(0);
 }
 
-void Shape::Draw(Shader* shader, glm::mat4& view, glm::mat4& projection)
+void Shape::Draw(Shader* shader, glm::mat4& view, glm::mat4& projection, float time)
 {
 	shader->UseShader();
 	shader->SetMat4("model", model);
 	shader->SetMat4("view", view);
 	shader->SetMat4("projection", projection);
+	shader->SetFloat("time", time);
 
 	glBindVertexArray(VAO);
 	glDrawArrays(drawMode, 0, vertexCount);

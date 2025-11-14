@@ -10,6 +10,7 @@ class Display
 private:
 	int width;
 	int height;
+	int settingsWidth;
 	const char* title;
 
 	SDL_Window* window;
@@ -18,7 +19,7 @@ private:
 
 public:
 	Display() = default;
-	Display(const char* title, int width, int height) : title(title), width(width), height(height) {};
+	Display(const char* title, int width, int height, int settingsWidth) : title(title), width(width), height(height), settingsWidth(settingsWidth) {};
 	~Display();
 
 	void Initialize();
@@ -27,5 +28,6 @@ public:
 	SDL_GLContext GetContext() { return context; }
 	int GetWidth() { return width; }
 	int GetHeight() { return height; }
+	int GetSettingsWidth() { return settingsWidth; }
 };
 

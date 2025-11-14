@@ -49,7 +49,7 @@ void Application::Setup()
 void Application::Render()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-	glViewport(0, 0, width - 200, height);
+	glViewport(0, 0, width - settingsWidth, height);
 
 	// Hintergrund löschen und Farbe setzen
 	glClearColor(0.2f, 0.1f, 0.1f, 1.0f);
@@ -60,7 +60,7 @@ void Application::Render()
 	glm::mat4 projection = glm::mat4(1.0f);
 
 	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -2.0f));
-	projection = glm::perspective(glm::radians(45.0f), (float)(width - 200) / (float)height, 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(45.0f), (float)(width - settingsWidth) / height, 0.1f, 100.0f);
 
 	// Zeichne die ausgewählte Form
 	const std::string& currentSelection = gui.GetSelectedItemName();
@@ -68,7 +68,7 @@ void Application::Render()
 		currentShape = shapeMap.at(currentSelection);
 	}
 
-	currentShape->Draw(shader, view, projection);
+	currentShape->Draw(shader, view, projection, SDL_GetTicks() / 1000.0f);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, width, height);
@@ -107,6 +107,7 @@ void Application::InputHandle()
 		{
 			int y = event.wheel.y;
 
+			// TouchPad invertieren
 			if (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED)
 			{
 				y = -y;
@@ -129,7 +130,7 @@ void Application::SetupFBO()
 	// Generiere Textur-Attachment
 	glGenTextures(1, &TCB);
 	glBindTexture(GL_TEXTURE_2D, TCB);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width - 200, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width - settingsWidth, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, TCB, 0);
@@ -137,7 +138,7 @@ void Application::SetupFBO()
 	// Generiere Renderbuffer-Objekt für Tiefe und Stencil
 	glGenRenderbuffers(1, &RBO);
 	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width - 200, height); 
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width - settingsWidth, height);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
 
 	// Prüfe auf Vollständigkeit

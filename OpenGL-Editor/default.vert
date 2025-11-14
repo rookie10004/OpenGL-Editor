@@ -8,7 +8,11 @@ uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
+uniform float time;
+
 void main() {
+    vec3 pos = aPos;
+    pos += sin(time);
     gl_Position = projection * view * model * vec4(aPos, 1.0f);
-    vertexColor = aColor;
+    vertexColor = aColor * (sin(time) * 0.5 + 0.5);
 }

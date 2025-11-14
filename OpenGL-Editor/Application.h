@@ -19,6 +19,7 @@ class Application
 private:
 	int width = 800;
 	int height = 600;
+	int settingsWidth = 200;
 	const char* title = "OpenGL-Editor";
 	bool isRunning = true;
 
@@ -27,6 +28,7 @@ private:
 	SDL_Event event;
 	GUI gui;
 
+	// Objekte
 	Shape cube = Shape("Cube");
 	Shape cylinder = Shape("Cylinder");
 	Shape pyramid = Shape("Pyramid");
@@ -39,10 +41,8 @@ private:
 	unsigned int TCB; // Texture Color Buffer
 	unsigned int RBO; // Render Buffer
 
-	float cameraZOffset = -2.0f;
-
 public:
-	Application() : display(title, width, height) {};
+	Application() : display(title, width, height, settingsWidth) {};
 	~Application();
 
 	void Initialize();
