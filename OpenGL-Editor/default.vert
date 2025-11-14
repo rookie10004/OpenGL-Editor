@@ -14,5 +14,5 @@ void main() {
     vec3 pos = aPos;
     pos += sin(time);
     gl_Position = projection * view * model * vec4(aPos, 1.0f);
-    vertexColor = aColor * (sin(time) * 0.5 + 0.5);
+    vertexColor = aColor * (sin(time) * 0.2 + 0.5);
 }
