@@ -1,7 +1,8 @@
-#include "Shape.h"
+#include "Mesh.h"
 
-void Shape::Initialize(const float vertices[], size_t vertexDataSize, unsigned int drawMode)
+void Mesh::Initialize(const float vertices[], size_t vertexDataSize, unsigned int drawMode)
 {
+	this->vertices.assign(vertices, vertices + vertexDataSize / sizeof(float));
 	vertexCount = vertexDataSize / sizeof(float) / 6;
 	this->drawMode = drawMode;
 
@@ -24,7 +25,7 @@ void Shape::Initialize(const float vertices[], size_t vertexDataSize, unsigned i
 	glBindVertexArray(0);
 }
 
-void Shape::Draw(Shader* shader, glm::mat4& view, glm::mat4& projection, float time)
+void Mesh::Draw(Shader* shader, glm::mat4& view, glm::mat4& projection, float time)
 {
 	shader->UseShader();
 	shader->SetMat4("model", model);
@@ -37,7 +38,7 @@ void Shape::Draw(Shader* shader, glm::mat4& view, glm::mat4& projection, float t
 	glBindVertexArray(0);
 }
 
-void Shape::Rotate(float x, float y)
+void Mesh::Rotate(float x, float y)
 {
 	glm::mat4 yaw = glm::rotate(glm::mat4(1.0f), glm::radians(x * sensitivity), glm::vec3(0, 1, 0));
 	glm::mat4 pitch = glm::rotate(glm::mat4(1.0f), glm::radians(y * sensitivity), glm::vec3(1, 0, 0));
@@ -46,12 +47,12 @@ void Shape::Rotate(float x, float y)
 	model = pitch * model;
 }
 
-void Shape::Scale(glm::vec3 scale)
+void Mesh::Scale(glm::vec3 scale)
 {
 	model = glm::scale(model, scale);
 }
 
-void Shape::ResetTransformation()
+void Mesh::ResetTransformation()
 {
 	model = glm::mat4(1.0f);
 }

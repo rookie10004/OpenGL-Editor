@@ -2,7 +2,7 @@
 
 Application::~Application()
 {
-	shapeMap.clear();
+	MeshMap.clear();
 
 	delete shader;
 
@@ -32,18 +32,18 @@ void Application::Initialize()
 	SetupFBO();
 
 	cube.Initialize(cubeVertices, sizeof(cubeVertices), GL_TRIANGLES);
-	shapeMap.emplace(cube.GetName(), &cube);
+	MeshMap.emplace(cube.GetName(), &cube);
 
 	pyramid.Initialize(pyramidVertices, sizeof(pyramidVertices), GL_TRIANGLES);
-	shapeMap.emplace(pyramid.GetName(), &pyramid);
+	MeshMap.emplace(pyramid.GetName(), &pyramid);
 
 	torus.Initialize(torusVertices, sizeof(torusVertices), GL_TRIANGLES);
-	shapeMap.emplace(torus.GetName(), &torus);
+	MeshMap.emplace(torus.GetName(), &torus);
 }
 
 void Application::Setup()
 {
-    shader = new Shader("default.vert", "default.frag");
+    shader = new Shader("Shader/default.vert", "Shader/default.frag");
 }
 
 void Application::Render()
@@ -63,9 +63,9 @@ void Application::Render()
 	projection = glm::perspective(glm::radians(45.0f), (float)(width - settingsWidth) / height, 0.1f, 100.0f);
 
 	// Zeichne die ausgewählte Form
-	const std::string& currentSelection = gui.GetSelectedItemName();
-	if (shapeMap.count(currentSelection)) {
-		currentShape = shapeMap.at(currentSelection);
+	const std::string& currentSelection = gui.GetSelectedMeshName();
+	if (MeshMap.count(currentSelection)) {
+		currentMesh = MeshMap.at(currentSelection);
 	}
 
 	float currentTime = SDL_GetTicks() / 1000.0f;
@@ -79,7 +79,7 @@ void Application::Render()
 	}
 	lastFrameTime = currentTime;
 
-	currentShape->Draw(shader, view, projection, currentTime);
+	currentMesh->Draw(shader, view, projection, currentTime);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, width, height);
@@ -88,7 +88,7 @@ void Application::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// GUI zeichnen
-	gui.Draw(display, TCB, currentShape, FPS);
+	gui.Draw(display, TCB, currentMesh, FPS);
 
     display.SwapBuffer();
 }
@@ -96,6 +96,7 @@ void Application::Render()
 
 void Application::InputHandle()
 {
+	SDL_Event event;
     while (SDL_PollEvent(&event)) {
 		ImGui_ImplSDL3_ProcessEvent(&event);
 
@@ -111,7 +112,7 @@ void Application::InputHandle()
 			float xOffset = (float)event.motion.xrel;
 			float yOffset = (float)event.motion.yrel;
 
-			currentShape->Rotate(xOffset, yOffset);
+			currentMesh->Rotate(xOffset, yOffset);
 		}
 
 		if (event.type == SDL_EVENT_MOUSE_WHEEL)
@@ -127,7 +128,7 @@ void Application::InputHandle()
 			float scaleStep = 0.1f;
 			float factor = 1.0f + y * scaleStep;
 
-			currentShape->Scale(glm::vec3(factor));
+			currentMesh->Scale(glm::vec3(factor));
 		}
     }
 }

@@ -6,7 +6,8 @@
 #include "Display.h"
 #include "GUI.h"
 #include "Vertices.h"
-#include "Shape.h"
+#include "Mesh.h"
+#include "Texture.h"
 
 #include <map>
 
@@ -25,17 +26,17 @@ private:
 
 	Display display;
 	Shader* shader = nullptr;
-	SDL_Event event;
+	Texture texture;
 	GUI gui;
 
 	// Objekte
-	Shape cube = Shape("Cube");
-	Shape cylinder = Shape("Cylinder");
-	Shape pyramid = Shape("Pyramid");
-	Shape torus = Shape("Torus");
+	Mesh cube = Mesh("Cube");
+	Mesh cylinder = Mesh("Cylinder");
+	Mesh pyramid = Mesh("Pyramid");
+	Mesh torus = Mesh("Torus");
 
-	Shape* currentShape = &cube;
-	std::map<std::string, Shape*> shapeMap;
+	Mesh* currentMesh = &cube;
+	std::map<std::string, Mesh*> MeshMap;
 
 	unsigned int FBO; // Frame Buffer
 	unsigned int TCB; // Texture Color Buffer

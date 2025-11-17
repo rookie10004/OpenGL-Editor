@@ -22,6 +22,9 @@
     <Filter Include="Header Files\imgui">
       <UniqueIdentifier>{d9c230c3-a36d-4ca2-bcec-d3792fefc3c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Texture">
+      <UniqueIdentifier>{a68f978e-08c0-4e0c-bc8f-07aa1fbd7a49}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -60,7 +63,10 @@
     <ClCompile Include="..\dependencies\imgui\imgui-master\backends\imgui_impl_sdl3.cpp">
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Shape.cpp">
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,15 +104,18 @@
     <ClInclude Include="Vertices.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Shape.h">
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="default.vert">
+    <None Include="Shader\default.vert">
       <Filter>Resource Files\Shader</Filter>
     </None>
-    <None Include="default.frag">
+    <None Include="Shader\default.frag">
       <Filter>Resource Files\Shader</Filter>
     </None>
   </ItemGroup>

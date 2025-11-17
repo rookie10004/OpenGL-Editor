@@ -1,6 +1,6 @@
 #include "GUI.h"
 
-void GUI::Draw(Display& display, unsigned int viewportTextureID, Shape* shape, float FPS)
+void GUI::Draw(Display& display, unsigned int viewportTextureID, Mesh* mesh, float FPS)
 {
     // ImGui Frame Start
     ImGui_ImplOpenGL3_NewFrame();
@@ -9,7 +9,7 @@ void GUI::Draw(Display& display, unsigned int viewportTextureID, Shape* shape, f
 
     SetStyle();
     ViewportWindow(display, viewportTextureID, FPS);
-    SettingsWindow(display, shape);
+    SettingsWindow(display, mesh);
 
     // ImGui Frame Ende und Rendern
     ImGui::Render();
@@ -70,7 +70,7 @@ void GUI::ViewportWindow(Display& display, unsigned int viewportTextureID, float
     ImGui::PopStyleVar();
 }
 
-void GUI::SettingsWindow(Display& display, Shape* shape)
+void GUI::SettingsWindow(Display& display, Mesh* mesh)
 {
     ImGui::SetNextWindowSize(ImVec2(display.GetSettingsWidth(), display.GetHeight()), ImGuiCond_Once);
     ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Once);
@@ -78,23 +78,23 @@ void GUI::SettingsWindow(Display& display, Shape* shape)
     ImGui::Begin("Object Settings", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
 
     ImGui::SeparatorText("Shape");
-
-    std::vector<const char*> items_c_str;
-    for (const auto& item : dropdownItems) {
-        items_c_str.push_back(item.c_str());
+    std::vector<const char*> meshItems_c_str;
+    for (const auto& item : dropdownMesh) {
+        meshItems_c_str.push_back(item.c_str());
     }
+    ImGui::Combo("##ObjectSelector", &selectedMeshIndex, meshItems_c_str.data(), meshItems_c_str.size());
 
-    if (ImGui::Combo("##ObjectSelector", &selectedItemIndex, items_c_str.data(), items_c_str.size()))
-    {
-        std::cout << "GUI: Selection changed to: " << dropdownItems[selectedItemIndex] << std::endl;
+    ImGui::SeparatorText("Material");
+    std::vector<const char*> materialItems_c_str;
+    for (const auto& item : dropdownMaterial) {
+        materialItems_c_str.push_back(item.c_str());
     }
-
+    ImGui::Combo("##MaterialSelector", &selectedMaterialIndex, materialItems_c_str.data(), materialItems_c_str.size());
 
     if (ImGui::Button("Reset", ImVec2(50, 20)))
     {
-        shape->ResetTransformation();
+        mesh->ResetTransformation();
     }
 
-    ImGui::SeparatorText("Color");
     ImGui::End();
 }
