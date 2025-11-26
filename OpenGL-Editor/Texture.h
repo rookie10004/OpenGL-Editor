@@ -1,16 +1,25 @@
-#pragma once
+#ifndef TEXTURE_CLASS_H
+#define TEXTURE_CLASS_H
+
+#include "Shader.h"
+#include <stb_image.h>
+#include <GL/glew.h>
+#include <glm.hpp>
+
 
 class Texture
 {
 private:
-	int width;
-	int height;
-	int numberColorChannel;
-
-	unsigned char* bytes;
+	unsigned int ID;
+	int type;
 
 public:
-	void Import(const char* path);
-	void Initialize();
+	Texture() = default;
+	Texture(const char* image, int texType, int slot, int format, int pixelType);
+
+	void texUnit(Shader* shader, const char* uniform, unsigned int unit);
+	void Bind();
+	void Delete();
 };
 
+#endif

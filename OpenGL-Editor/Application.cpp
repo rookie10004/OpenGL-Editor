@@ -44,6 +44,9 @@ void Application::Initialize()
 void Application::Setup()
 {
     shader = new Shader("Shader/default.vert", "Shader/default.frag");
+
+	texture = Texture("Texture/popcat.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	texture.texUnit(shader, "tex0", 0);
 }
 
 void Application::Render()
@@ -55,7 +58,7 @@ void Application::Render()
 	glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//Rotation
+	// Rotation
 	glm::mat4 view = glm::mat4(1.0f);
 	glm::mat4 projection = glm::mat4(1.0f);
 
@@ -68,6 +71,7 @@ void Application::Render()
 		currentMesh = MeshMap.at(currentSelection);
 	}
 
+	// FPS Rechungen
 	float currentTime = SDL_GetTicks() / 1000.0f;
 	fpsTimer += currentTime - lastFrameTime;
 	frameCount++;
@@ -78,6 +82,8 @@ void Application::Render()
 		frameCount = 0;
 	}
 	lastFrameTime = currentTime;
+
+	texture.Bind();
 
 	currentMesh->Draw(shader, view, projection, currentTime);
 

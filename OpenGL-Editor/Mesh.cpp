@@ -3,7 +3,7 @@
 void Mesh::Initialize(const float vertices[], size_t vertexDataSize, unsigned int drawMode)
 {
 	this->vertices.assign(vertices, vertices + vertexDataSize / sizeof(float));
-	vertexCount = vertexDataSize / sizeof(float) / 6;
+	vertexCount = vertexDataSize / sizeof(float) / 8;
 	this->drawMode = drawMode;
 
 	glGenVertexArrays(1, &VAO);
@@ -15,12 +15,16 @@ void Mesh::Initialize(const float vertices[], size_t vertexDataSize, unsigned in
 	glBufferData(GL_ARRAY_BUFFER, vertexDataSize, vertices, GL_STATIC_DRAW);
 
 	//Positionsattribut
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
-	//Farbattribut
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	//Normalenattribut
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+
+	//Texturenattribut
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
 	glBindVertexArray(0);
 }

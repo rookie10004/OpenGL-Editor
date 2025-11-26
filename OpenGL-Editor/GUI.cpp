@@ -61,7 +61,7 @@ void GUI::ViewportWindow(Display& display, unsigned int viewportTextureID, float
     ImGui::Image((void*)(intptr_t)viewportTextureID, ImVec2(display.GetWidth() - display.GetSettingsWidth(), display.GetHeight()), ImVec2(0, 1), ImVec2(1, 0));
 
     float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
-    ImGui::SetCursorScreenPos(ImVec2(display.GetWidth() - 80, ImGui::GetWindowPos().y + titleBarHeight + 5.0f));
+    ImGui::SetCursorScreenPos(ImVec2(display.GetWidth() - 90, ImGui::GetWindowPos().y + titleBarHeight + 5.0f));
 
     ImGui::Text("FPS: %.2f", FPS);
 
