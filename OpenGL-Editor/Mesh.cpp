@@ -29,13 +29,16 @@ void Mesh::Initialize(const float vertices[], size_t vertexDataSize, unsigned in
 	glBindVertexArray(0);
 }
 
-void Mesh::Draw(Shader* shader, glm::mat4& view, glm::mat4& projection, float time)
+void Mesh::Draw(Shader* shader, glm::mat4& view, glm::mat4& projection, glm::vec3 cameraPosition, float time, glm::vec3 lightPosition, glm::vec3 lightColor)
 {
 	shader->UseShader();
 	shader->SetMat4("model", model);
 	shader->SetMat4("view", view);
 	shader->SetMat4("projection", projection);
+	shader->SetVec3("cameraPosition", cameraPosition);
 	shader->SetFloat("time", time);
+	shader->SetVec3("lightPosition", lightPosition);
+	shader->SetVec3("lightColor", lightColor);
 
 	glBindVertexArray(VAO);
 	glDrawArrays(drawMode, 0, vertexCount);

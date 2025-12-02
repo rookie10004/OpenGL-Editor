@@ -30,7 +30,7 @@ public:
 
 	void Initialize(const float vertices[], size_t vertexDataSize, unsigned int drawMode);
 	const std::string& GetName() const { return name; };
-	void Draw(Shader* shader, glm::mat4& view, glm::mat4& projection, float time);
+	void Draw(Shader* shader, glm::mat4& view, glm::mat4& projection, glm::vec3 cameraPosition, float time, glm::vec3 lightPosition, glm::vec3 lightColor);
 	void Rotate(float x, float y);
 	void Scale(glm::vec3 scale);
 	void ResetTransformation();

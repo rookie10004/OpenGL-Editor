@@ -45,7 +45,7 @@ void Application::Setup()
 {
     shader = new Shader("Shader/default.vert", "Shader/default.frag");
 
-	texture = Texture("Texture/popcat.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	texture = Texture("Texture/brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 	texture.texUnit(shader, "tex0", 0);
 }
 
@@ -58,16 +58,18 @@ void Application::Render()
 	glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// Matrix
+	// Matrix für Umwandlung in Weltkoordinaten 
 	glm::mat4 view = glm::mat4(1.0f);
 	glm::mat4 projection = glm::mat4(1.0f);
+	glm::vec3 cameraPosition = glm::vec3(0.0f, 0.0f, 2.0f);
 
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -2.0f));
+	view = glm::translate(view, -cameraPosition);
 	projection = glm::perspective(glm::radians(45.0f), (float)(width - settingsWidth) / height, 0.1f, 100.0f);
 
-	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	glm::vec3 lightPosition = glm::vec3(0.5f, 0.5f, 0.5f);
-	glm::mat4 lightModel = glm::mat4(1.0f);
+	// Licht Vektoren für Schatten
+	glm::vec3 lightColor = glm::vec3(1.0f, 0.9f, 0.8f);
+	glm::vec3 lightPosition = glm::vec3(0.5f, 0.7f, 2.0f);
+	float ambient = 0.25f;
 
 	// Zeichne die ausgewählte Form
 	const std::string& currentSelection = gui.GetSelectedMeshName();
@@ -89,7 +91,7 @@ void Application::Render()
 
 	texture.Bind();
 
-	currentMesh->Draw(shader, view, projection, currentTime);
+	currentMesh->Draw(shader, view, projection, cameraPosition, currentTime, lightPosition, lightColor);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, width, height);
