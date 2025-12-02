@@ -26,6 +26,7 @@ private:
 
 	Display display;
 	Shader* shader = nullptr;
+	Shader* lightShader = nullptr;
 	Texture texture;
 	GUI gui;
 
