@@ -15,7 +15,7 @@ private:
 
 public:
 	Texture() = default;
-	Texture(const char* image, int texType, int slot, int format, int pixelType);
+	Texture(const char* imagePath, int texType, int slot, int format, int pixelType);
 
 	void texUnit(Shader* shader, const char* uniform, unsigned int unit);
 	void Bind();

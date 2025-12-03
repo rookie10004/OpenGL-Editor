@@ -35,6 +35,7 @@ private:
 	Mesh cylinder = Mesh("Cylinder");
 	Mesh pyramid = Mesh("Pyramid");
 	Mesh torus = Mesh("Torus");
+	Mesh sphere = Mesh("Sphere");
 
 	Mesh* currentMesh = &cube;
 	std::map<std::string, Mesh*> MeshMap;

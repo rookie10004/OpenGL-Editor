@@ -37,8 +37,11 @@ void Application::Initialize()
 	pyramid.Initialize(pyramidVertices, sizeof(pyramidVertices), GL_TRIANGLES);
 	MeshMap.emplace(pyramid.GetName(), &pyramid);
 
-	torus.Initialize(torusVertices, sizeof(torusVertices), GL_TRIANGLES);
+	torus.LoadOBJ("Mesh/suzanne.obj");
 	MeshMap.emplace(torus.GetName(), &torus);
+
+	sphere.LoadOBJ("Mesh/sphere.obj");
+	MeshMap.emplace(sphere.GetName(), &sphere);
 }
 
 void Application::Setup()

@@ -2,7 +2,7 @@
 
 #include "Texture.h"
 
-Texture::Texture(const char* image, int texType, int slot, int format, int pixelType)
+Texture::Texture(const char* imagePath, int texType, int slot, int format, int pixelType)
 {
 	type = texType;
 
@@ -10,7 +10,7 @@ Texture::Texture(const char* image, int texType, int slot, int format, int pixel
 
 	stbi_set_flip_vertically_on_load(true);
 
-	unsigned char* bytes = stbi_load(image, &widthImage, &heightImage, &numberColorChannel, 4);
+	unsigned char* bytes = stbi_load(imagePath, &widthImage, &heightImage, &numberColorChannel, 4);
 
 	// Generates an OpenGL texture object
 	glGenTextures(1, &ID);

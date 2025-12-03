@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <array>
 #include <glm.hpp>
 #include <GL/glew.h>
 #include <gtc/matrix_transform.hpp>
@@ -37,4 +38,6 @@ public:
 
 	std::vector<float>& GetVertices() { return vertices; }
 	std::vector<unsigned int>& GetIndices() { return indices; }
+
+	bool LoadOBJ(const char* path);
 };
