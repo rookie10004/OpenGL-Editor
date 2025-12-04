@@ -27,18 +27,25 @@ private:
 	Display display;
 	Shader* shader = nullptr;
 	Shader* lightShader = nullptr;
-	Texture texture;
 	GUI gui;
 
 	// Objekte
 	Mesh cube = Mesh("Cube");
 	Mesh cylinder = Mesh("Cylinder");
 	Mesh pyramid = Mesh("Pyramid");
-	Mesh torus = Mesh("Torus");
+	Mesh monkey = Mesh("Monkey");
 	Mesh sphere = Mesh("Sphere");
+
+	// Texturen
+	Texture bricks;
+	Texture woodCrate;
+	Texture minecraftGrassBlock;
+	Texture planet;
 
 	Mesh* currentMesh = &cube;
 	std::map<std::string, Mesh*> MeshMap;
+	Texture* currentTexture;
+	std::map<std::string, Texture*> TextureMap;
 
 	unsigned int FBO; // Frame Buffer
 	unsigned int TCB; // Texture Color Buffer

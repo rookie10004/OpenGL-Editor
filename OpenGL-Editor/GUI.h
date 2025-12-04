@@ -13,8 +13,8 @@
 class GUI
 {
 private:
-	std::vector<std::string> dropdownMesh = { "Cube", "Pyramid", "Torus", "Sphere"};
-	std::vector<std::string> dropdownMaterial = { "Color", "Brick", "Water"};
+	std::vector<std::string> dropdownMesh = { "Cube", "Pyramid", "Sphere", "Monkey"};
+	std::vector<std::string> dropdownMaterial = { "Bricks", "Wood Crate", "Planet"};
 	int selectedMeshIndex = 0;
 	int selectedMaterialIndex = 0;
 

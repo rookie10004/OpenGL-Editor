@@ -31,25 +31,40 @@ void Application::Initialize()
 
 	SetupFBO();
 
+	//Mesh
 	cube.Initialize(cubeVertices, sizeof(cubeVertices), GL_TRIANGLES);
-	MeshMap.emplace(cube.GetName(), &cube);
-
 	pyramid.Initialize(pyramidVertices, sizeof(pyramidVertices), GL_TRIANGLES);
+	if (!monkey.LoadOBJ("Mesh/suzanne.obj", 0.3f))
+	{
+		std::cout << "Mesh from .obj file could load correctly" << std::endl;
+	}
+	if (!sphere.LoadOBJ("Mesh/sphere.obj", 0.3f))
+	{
+		std::cout << "Mesh from .obj file could load correctly" << std::endl;
+	}
+
+	MeshMap.emplace(cube.GetName(), &cube);
 	MeshMap.emplace(pyramid.GetName(), &pyramid);
-
-	torus.LoadOBJ("Mesh/suzanne.obj");
-	MeshMap.emplace(torus.GetName(), &torus);
-
-	sphere.LoadOBJ("Mesh/sphere.obj");
 	MeshMap.emplace(sphere.GetName(), &sphere);
+	MeshMap.emplace(monkey.GetName(), &monkey);
+
+	//Texture
+	bricks = Texture("Texture/brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	woodCrate = Texture("Texture/wooden_crate.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	planet = Texture("Texture/earth.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+
+	TextureMap.emplace("Bricks", &bricks);
+	TextureMap.emplace("Wood Crate", &woodCrate);
+	TextureMap.emplace("Planet", &planet);
 }
 
 void Application::Setup()
 {
     shader = new Shader("Shader/default.vert", "Shader/default.frag");
 
-	texture = Texture("Texture/brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
-	texture.texUnit(shader, "tex0", 0);
+	bricks.texUnit(shader, "tex0", 0);
+	woodCrate.texUnit(shader, "tex0", 0);
+	planet.texUnit(shader, "tex0", 0);
 }
 
 void Application::Render()
@@ -74,10 +89,16 @@ void Application::Render()
 	glm::vec3 lightPosition = glm::vec3(0.5f, 0.7f, 2.0f);
 	float ambient = 0.25f;
 
-	// Zeichne die ausgewählte Form
-	const std::string& currentSelection = gui.GetSelectedMeshName();
-	if (MeshMap.count(currentSelection)) {
-		currentMesh = MeshMap.at(currentSelection);
+	// Form von DropDownMenü
+	const std::string& currentSelectionMesh = gui.GetSelectedMeshName();
+	if (MeshMap.count(currentSelectionMesh)) {
+		currentMesh = MeshMap.at(currentSelectionMesh);
+	}
+
+	// Material von DropDownMenü
+	const std::string& currentSelectionTexture = gui.GetSelectedMaterialName();
+	if (TextureMap.count(currentSelectionTexture)) {
+		currentTexture = TextureMap.at(currentSelectionTexture);
 	}
 
 	// FPS Rechungen
@@ -92,9 +113,9 @@ void Application::Render()
 	}
 	lastFrameTime = currentTime;
 
-	texture.Bind();
+	currentTexture->Bind();
 
-	currentMesh->Draw(shader, view, projection, cameraPosition, currentTime, lightPosition, lightColor);
+	currentMesh->Draw(shader, currentTexture, view, projection, cameraPosition, currentTime, lightPosition, lightColor);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, width, height);

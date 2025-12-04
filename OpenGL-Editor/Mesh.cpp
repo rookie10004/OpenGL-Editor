@@ -31,7 +31,7 @@ void Mesh::Initialize(const float vertices[], size_t vertexDataSize, unsigned in
 	glBindVertexArray(0);
 }
 
-void Mesh::Draw(Shader* shader, glm::mat4& view, glm::mat4& projection, glm::vec3 cameraPosition, float time, glm::vec3 lightPosition, glm::vec3 lightColor)
+void Mesh::Draw(Shader* shader, Texture* texture, glm::mat4& view, glm::mat4& projection, glm::vec3 cameraPosition, float time, glm::vec3 lightPosition, glm::vec3 lightColor)
 {
 	shader->UseShader();
 	shader->SetMat4("model", model);
@@ -72,7 +72,7 @@ struct Vertex {
     glm::vec2 texCoord;
 };
 
-bool Mesh::LoadOBJ(const char* path)
+bool Mesh::LoadOBJ(const char* path, float scale)
 {
     std::ifstream file(path);
     if (!file.is_open())
@@ -165,6 +165,8 @@ bool Mesh::LoadOBJ(const char* path)
     file.close();
 
     Initialize(finalVertices.data(), finalVertices.size() * sizeof(float), GL_TRIANGLES);
+    
+    Scale(glm::vec3(scale));
 
     return true;
 }
